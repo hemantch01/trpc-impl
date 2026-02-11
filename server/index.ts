@@ -14,6 +14,14 @@ const appRouter = router({
         let title = opts.input.title;
         const id = opts.input.id;
         title = title.toUpperCase();
+
+
+        // use of the context
+
+        const username = opts.ctx.username;
+        console.log(username);
+
+        
         // may be some db calls also
         return {
             id,
@@ -27,8 +35,32 @@ const appRouter = router({
 });
 
 const server = createHTTPServer({
-    router:appRouter
+    router:appRouter,
+    createContext(opts){
+        const authHeader = opts.req.headers["authorization"];
+        return {
+            username:"hello wahtever"
+        }
+    }
 });
 server.listen(3000);
 
 export type AppRouter = typeof appRouter; // types used client side
+
+
+// task 1 
+/* it was to install the trpc server then 
+create trpc object  using initTRPC
+trpc object contains router and publicProcedures
+
+then we will create approuter = router({
+different routes in the form of kkey and pair})
+
+then serve that using express or native handler
+
+task 2 
+how to setup context for trpc
+use of context is to store auth variables etc
+
+setup context for the initTRPC function
+ */
